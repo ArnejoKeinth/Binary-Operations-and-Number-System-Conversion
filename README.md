@@ -41,9 +41,13 @@ You have to present this on or before the due date.
 
 Rubric
 Requirements Delivery  --------- 40%
+
 Library Independence ----------- 10%
+
 Coding Standards ----------------- 10%
+
 Efficiency ----------------------------- 10%
+
 Clarity of Presentation --------- 30%
 
 During your presentation, you must provide at least 3 sample problems for each operation with manual solutions then simulate these samples with your project. Your presentation must be in slideshow.
