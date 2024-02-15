@@ -31,16 +31,17 @@ def integer_to_binary(integer):
     if integer >= 0:
         binary_value = bin(integer)[2:].zfill(num_bits)
         binary_value = ('0' * 4) + binary_value
-        binary_value = ' '.join(binary_value[i:i + 4] for i in range(0, len(binary_value), 4))[::-1]
+        binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
     elif 0 > integer >= -128:
         binary_value = bin((1 << num_bits) + integer & ((1 << num_bits) - 1))[2:].zfill(num_bits)
-        binary_value = ' '.join(binary_value[i:i + 4] for i in range(0, len(binary_value), 4))[::-1]
+        binary_value = ('1' * 4) + binary_value
+        binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
     elif integer <= -129:
         binary_value = bin(integer)[3:].zfill(num_bits)
         binary_value = ('1' * 4) + twos_complement(binary_value)
-        binary_value = ' '.join(binary_value[i:i + 4] for i in range(0, len(binary_value), 4))[::-1]
+        binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
 
 
