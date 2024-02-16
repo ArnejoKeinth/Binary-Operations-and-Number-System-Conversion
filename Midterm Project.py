@@ -1,9 +1,8 @@
-# Di pa tapos, Incorrect output for Binary WITH decimal
 def twos_complement(binary):
-    complement = ''.join('1' if bit == '0' else '0' for bit in binary)
+    complement = ''.join('1' if bit == '0' else '0' if bit == '1' else bit for bit in binary)
     carry = 1
     result = ''
-    for bit in complement[::-1]:
+    for bit in complement[::-1]:      
         if bit == '1' and carry == 1:
             result += '0'
         elif bit == '0' and carry == 1:
