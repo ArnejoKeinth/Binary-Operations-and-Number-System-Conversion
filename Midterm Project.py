@@ -208,9 +208,14 @@ def binary_operations():
         print("Quotient:", quotient)
 
     elif choice == 5:
-        binary = input("Enter a binary number: ").replace(" ", "")
-        complement = twos_complement(binary)
-        complement = ' '.join(complement[::-1][i:i + 4] for i in range(0, len(complement), 4))[::-1]
+        binary = input("Enter a binary number: ")
+        binary = twos_complement(binary)
+        integer_part, fractional_part = binary.split('.')
+        integer_no_space = integer_part.replace(' ', '')
+        integer_part = ' '.join(
+            integer_no_space[::-1][i:i + 4] for i in range(0, len(integer_no_space), 4))[::-1]
+
+        complement = integer_part + '.' + fractional_part
         print("2's complement:", complement)
 
 
