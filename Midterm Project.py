@@ -161,8 +161,11 @@ def divide_binary(dividend, divisor):
     else:
         int1 = binary_to_integer(dividend)
         int2 = binary_to_integer(divisor)
-        result = int1 // int2
-        result = integer_to_binary(result)
+        result = int1 / int2
+        if result % 1 == 0:
+            result = integer_to_binary(result)
+        else:
+            result = mixed_to_binary(result)
 
     return result
 
