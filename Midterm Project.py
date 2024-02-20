@@ -44,22 +44,40 @@ def integer_to_binary(integer):
         return binary_value[::-1]
 
 
-# Integers WITH decimal to Binary
-def mixed_to_binary(mixed):
-    integer_part, fraction_part = str(mixed).split('.')
-    binary_integer_part = integer_to_binary(int(integer_part))
+def format_binary(binary):
+    integer_part, fractional_part = binary.split('.')
+    integer_no_space = integer_part.replace(' ', '')  # Remove any existing spaces
+    integer_part = ' '.join(integer_no_space[::-1][i:i + 4] for i in range(0, len(integer_no_space), 4))[::-1]
+    return integer_part + '.' + fractional_part
 
-    binary_fraction_part = ''
-    if fraction_part != '0':
-        fraction_part = '0.' + fraction_part
-        fraction = float(fraction_part)
-        while fraction != 0:
-            fraction *= 2
-            binary_fraction_part += str(int(fraction))
-            fraction -= int(fraction)
 
-    result = binary_integer_part + '.' + binary_fraction_part
-    return result
+def float_to_binary(num):
+    num_str = str(num)
+    # Splitting the number into integer and fractional parts
+    integer_part, fractional_part = num_str.split('.')
+
+    # Converting integer part to binary
+    integer_binary = bin(abs(int(integer_part)))[2:]
+
+    # Converting fractional part to binary
+    fractional_binary = ''
+    if fractional_part != '0':
+        fractional_part = float('0.' + fractional_part)
+        while fractional_part != 0:
+            fractional_part *= 2
+            if fractional_part >= 1:
+                fractional_binary += '1'
+                fractional_part -= 1
+            else:
+                fractional_binary += '0'
+
+    result = integer_binary + '.' + fractional_binary
+    if num_str.startswith('-') and '.' in num_str:
+        result = ('0000' if num < 0 else '') + integer_binary + '.' + fractional_binary
+        result = twos_complement(result)
+    elif num > 0:
+        result = '0000' + integer_binary + '.' + fractional_binary
+    return format_binary(result)
 
 
 # Binary WITH decimal to Integer
