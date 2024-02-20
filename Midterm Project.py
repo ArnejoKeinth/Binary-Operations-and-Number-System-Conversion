@@ -105,7 +105,7 @@ def add_binary(binary1, binary2):
         else:
             int2 = binary_to_integer(binary2)
         result = int1 + int2
-        result = mixed_to_binary(result)
+        result = float_to_binary‎(result)
 
     else:
         int1 = binary_to_integer(binary1)
@@ -128,7 +128,7 @@ def subtract_binary(minuend, subtrahend):
         else:
             int2 = binary_to_integer(subtrahend)
         result = int1 - int2
-        result = mixed_to_binary(result)
+        result = float_to_binary‎(result)
 
     else:
         int1 = binary_to_integer(minuend)
@@ -151,7 +151,7 @@ def multiply_binary(multiplicand, multiplier):
         else:
             int2 = binary_to_integer(multiplier)
         result = int1 * int2
-        result = mixed_to_binary(result)
+        result = float_to_binary‎(result)
 
     else:
         int1 = binary_to_integer(multiplicand)
@@ -174,7 +174,7 @@ def divide_binary(dividend, divisor):
         else:
             int2 = binary_to_integer(divisor)
         result = int1 / int2
-        result = mixed_to_binary(result)
+        result = float_to_binary‎(result)
 
     else:
         int1 = binary_to_integer(dividend)
@@ -183,7 +183,7 @@ def divide_binary(dividend, divisor):
         if result % 1 == 0:
             result = integer_to_binary(result)
         else:
-            result = mixed_to_binary(result)
+            result = float_to_binary‎(result)
 
     return result
 
