@@ -2,7 +2,7 @@ def twos_complement(binary):
     complement = ''.join('1' if bit == '0' else '0' if bit == '1' else bit for bit in binary)
     carry = 1
     result = ''
-    for bit in complement[::-1]:      
+    for bit in complement[::-1]:
         if bit == '1' and carry == 1:
             result += '0'
         elif bit == '0' and carry == 1:
@@ -23,32 +23,36 @@ def binary_to_integer(binary):
 
 
 # Integers to Binary WITHOUT decimal
-def integer_to_binary(integer):
-    num_bits = integer.bit_length()
+def integer_to_binary(value):
+    num_bits = value.bit_length()
     num_bits = max(num_bits, 8)
 
-    if integer >= 0:
-        binary_value = bin(integer)[2:].zfill(num_bits)
+    if value >= 0:
+        binary_value = bin(value)[2:].zfill(num_bits)
         binary_value = ('0' * 4) + binary_value
         binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
-    elif 0 > integer >= -128:
-        binary_value = bin((1 << num_bits) + integer & ((1 << num_bits) - 1))[2:].zfill(num_bits)
+    elif 0 > value >= -128:
+        binary_value = bin((1 << num_bits) + value & ((1 << num_bits) - 1))[2:].zfill(num_bits)
         binary_value = ('1' * 4) + binary_value
         binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
-    elif integer <= -129:
-        binary_value = bin(integer)[3:].zfill(num_bits)
+    elif value <= -129:
+        binary_value = bin(value)[3:].zfill(num_bits)
         binary_value = ('1' * 4) + twos_complement(binary_value)
         binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
 
 
+# Integers WITH decimal to Binary
 def format_binary(binary):
-    integer_part, fractional_part = binary.split('.')
-    integer_no_space = integer_part.replace(' ', '')  # Remove any existing spaces
-    integer_part = ' '.join(integer_no_space[::-1][i:i + 4] for i in range(0, len(integer_no_space), 4))[::-1]
-    return integer_part + '.' + fractional_part
+    if '.' in binary:
+        integer_part, fractional_part = binary.split('.')
+        integer_part = ' '.join(integer_part[::-1][i:i + 4] for i in range(0, len(integer_part), 4))[::-1]
+        return integer_part + '.' + fractional_part
+    else:
+        result = ' '.join(binary[::-1][i:i + 4] for i in range(0, len(binary), 4))[::-1]
+        return result
 
 
 def float_to_binary(num):
@@ -105,7 +109,7 @@ def add_binary(binary1, binary2):
         else:
             int2 = binary_to_integer(binary2)
         result = int1 + int2
-        result = float_to_binary‎(result)
+        result = float_to_binary(result)
 
     else:
         int1 = binary_to_integer(binary1)
@@ -128,7 +132,7 @@ def subtract_binary(minuend, subtrahend):
         else:
             int2 = binary_to_integer(subtrahend)
         result = int1 - int2
-        result = float_to_binary‎(result)
+        result = float_to_binary(result)
 
     else:
         int1 = binary_to_integer(minuend)
@@ -151,7 +155,7 @@ def multiply_binary(multiplicand, multiplier):
         else:
             int2 = binary_to_integer(multiplier)
         result = int1 * int2
-        result = float_to_binary‎(result)
+        result = float_to_binary(result)
 
     else:
         int1 = binary_to_integer(multiplicand)
@@ -174,16 +178,16 @@ def divide_binary(dividend, divisor):
         else:
             int2 = binary_to_integer(divisor)
         result = int1 / int2
-        result = float_to_binary‎(result)
+        result = float_to_binary(result)
 
     else:
         int1 = binary_to_integer(dividend)
         int2 = binary_to_integer(divisor)
         result = int1 / int2
-        if result % 1 == 0:
+        if result % 1 == 0:  # Checking if result is an integer
             result = integer_to_binary(result)
         else:
-            result = float_to_binary‎(result)
+            result = float_to_binary(result)
 
     return result
 
@@ -226,15 +230,10 @@ def binary_operations():
         print("Quotient:", quotient)
 
     elif choice == 5:
-        binary = input("Enter a binary number: ")
-        binary = twos_complement(binary)
-        integer_part, fractional_part = binary.split('.')
-        integer_no_space = integer_part.replace(' ', '')
-        integer_part = ' '.join(
-            integer_no_space[::-1][i:i + 4] for i in range(0, len(integer_no_space), 4))[::-1]
-
-        complement = integer_part + '.' + fractional_part
-        print("2's complement:", complement)
+        binary = input("Enter a binary number: ").replace(" ", "")
+        complement = twos_complement(binary)
+        result = format_binary(complement)
+        print("2's complement:", result)
 
 
 def number_conversion():
