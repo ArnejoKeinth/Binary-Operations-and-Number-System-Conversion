@@ -14,31 +14,19 @@ def twos_complement(binary):
 
 
 # Binary WITHOUT decimal to Integers
-def binary_to_integer(binary):
-    if binary[0] == '1':
-        integer_value = int(binary, 2) - 2 ** len(binary)
-    else:
-        integer_value = int(binary, 2)
-    return integer_value
-
-
-# Integers to Binary WITHOUT decimal
 def integer_to_binary(value):
-    num_bits = value.bit_length()
-    num_bits = max(num_bits, 8)
-
     if value >= 0:
-        binary_value = bin(value)[2:].zfill(num_bits)
+        binary_value = bin(value)[2:]
         binary_value = ('0' * 4) + binary_value
         binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
     elif 0 > value >= -128:
-        binary_value = bin((1 << num_bits) + value & ((1 << num_bits) - 1))[2:].zfill(num_bits)
+        binary_value = bin(value)[3:]
         binary_value = ('1' * 4) + binary_value
         binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
     elif value <= -129:
-        binary_value = bin(value)[3:].zfill(num_bits)
+        binary_value = bin(value)[3:]
         binary_value = ('1' * 4) + twos_complement(binary_value)
         binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
