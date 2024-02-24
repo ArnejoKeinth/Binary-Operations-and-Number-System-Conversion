@@ -35,7 +35,7 @@ def integer_to_binary(value):
         binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
     elif value <= -129:
-        binary_value = bin(value)[2:]
+        binary_value = bin(value)[3:]
         binary_value = ('1' * 4) + twos_complement(binary_value)
         binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
