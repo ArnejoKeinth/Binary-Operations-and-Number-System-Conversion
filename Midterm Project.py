@@ -13,7 +13,16 @@ def twos_complement(binary):
     return result[::-1]
 
 
-# Binary WITHOUT decimal to Integers
+# Binary to Integers
+def binary_to_integer(binary):
+    if binary[0] == '1':
+        integer_value = int(binary, 2) - 2 ** len(binary)
+    else:
+        integer_value = int(binary, 2)
+    return integer_value
+
+
+# Integers to Binary
 def integer_to_binary(value):
     if value >= 0:
         binary_value = bin(value)[2:]
@@ -22,44 +31,41 @@ def integer_to_binary(value):
         return binary_value[::-1]
     elif 0 > value >= -128:
         binary_value = bin(value)[3:]
-        binary_value = ('1' * 4) + binary_value
+        binary_value = ('1' * 4) + twos_complement(binary_value)
         binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
     elif value <= -129:
-        binary_value = bin(value)[3:]
+        binary_value = bin(value)[2:]
         binary_value = ('1' * 4) + twos_complement(binary_value)
         binary_value = ' '.join(binary_value[max(0, i - 4):i][::-1] for i in range(len(binary_value), 0, -4))
         return binary_value[::-1]
 
 
-# Integers WITH decimal to Binary
 def format_binary(binary):
     if '.' in binary:
-        integer_part, fractional_part = binary.split('.')
+        integer_part, fraction_part = binary.split('.')
         integer_part = ' '.join(integer_part[::-1][i:i + 4] for i in range(0, len(integer_part), 4))[::-1]
-        return integer_part + '.' + fractional_part
+        return integer_part + '.' + fraction_part
     else:
         result = ' '.join(binary[::-1][i:i + 4] for i in range(0, len(binary), 4))[::-1]
         return result
 
 
+# Floats to Binary
 def float_to_binary(num):
     num_str = str(num)
-    # Splitting the number into integer and fractional parts
-    integer_part, fractional_part = num_str.split('.')
-
-    # Converting integer part to binary
+    integer_part, fraction_part = num_str.split('.')
     integer_binary = bin(abs(int(integer_part)))[2:]
 
     # Converting fractional part to binary
     fractional_binary = ''
-    if fractional_part != '0':
-        fractional_part = float('0.' + fractional_part)
-        while fractional_part != 0:
-            fractional_part *= 2
-            if fractional_part >= 1:
+    if fraction_part != '0':
+        fraction_part = float('0.' + fraction_part)
+        while fraction_part != 0:
+            fraction_part *= 2
+            if fraction_part >= 1:
                 fractional_binary += '1'
-                fractional_part -= 1
+                fraction_part -= 1
             else:
                 fractional_binary += '0'
 
@@ -72,7 +78,7 @@ def float_to_binary(num):
     return format_binary(result)
 
 
-# Binary WITH decimal to Integer
+# Binary WITH fractions to Integer
 def binary_fraction_to_integer(binary):
     integer_part, fraction_part = binary.split('.')
     integer_value = binary_to_integer(integer_part)
@@ -81,7 +87,6 @@ def binary_fraction_to_integer(binary):
     for i in range(len(fraction_part)):
         fraction_value += int(fraction_part[i]) * (1 / (2 ** (i + 1)))
     result = integer_value + fraction_value
-
     return result
 
 
